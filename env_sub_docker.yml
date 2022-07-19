@@ -38,4 +38,4 @@ dependencies:
   #- torch-spline-conv
   - torchdiffeq==0.0.1
   - wandb==0.10.33
-name: cdvae
+name: base
