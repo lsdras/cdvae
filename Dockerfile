@@ -1,4 +1,3 @@
-
 FROM pytorch/pytorch:1.8.1-cuda10.2-cudnn7-runtime
 
 MAINTAINER lsdras96@gm.gist.ac.kr
@@ -26,11 +25,11 @@ RUN git clone https://github.com/lsdras/cdvae.git && cd cdvae && git checkout or
 WORKDIR /workspace/cdvae
 
 RUN conda env create -f env_sub.yml  && \
-    conda activate cdvae && \
-    conda install -y ipywidgets jupyterlab matplotlib pylint && \
-    conda install -y -c conda-forge \
-    matminer=0.7.3 nglview pymatgen=2020.12.31 torchmetrics=0.7.3 && \
-    pip install setuptools==59.5.0  && \
+    conda activate cdvae
+RUN conda install -y ipywidgets jupyterlab matplotlib pylint
+RUN conda install -y -c conda-forge \
+    matminer=0.7.3 nglview pymatgen=2020.12.31 torchmetrics=0.7.3
+RUN pip install setuptools==59.5.0  && \
     pip install -e .
 
 
@@ -38,3 +37,4 @@ RUN conda env create -f env_sub.yml  && \
 #RUN /bin/bash -c "source activate my_env && pip install torch" 
 #CMD [ "/bin/bash" ]
 #SHELL ["/bin/bash", "-c"]
+
