@@ -7,7 +7,7 @@ dependencies:
 - pyg=2.0.1
 - ase=3.22
 - autopep8
-#- cudatoolkit=10.2
+- cudatoolkit=10.2
 #- ipywidgets
 #- jupyterlab
 #- matminer=0.7.3
