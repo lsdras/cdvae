@@ -15,8 +15,9 @@ RUN apt-get update --fix-missing && \
     rm -rf /var/lib/apt/lists/*
 RUN cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 RUN echo "Asia/Seoul" > /etc/timezone
+RUN locale-gen ko_KR.UTF-8 en_US.UTF-8
 
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/anaconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh -O ~/anaconda.sh && \
         /bin/bash ~/anaconda.sh -b -p /opt/conda && \
         rm ~/anaconda.sh && \
         ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
@@ -27,23 +28,17 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 
 # set path to conda
 ENV PATH /opt/conda/bin:$PATH
+RUN conda update -n base -c defaults conda && conda config --set ssl_verify false
 
-
-
-RUN locale-gen ko_KR.UTF-8 en_US.UTF-8
-
-# set path to conda
-ENV PATH /opt/conda/bin:$PATH
 
 WORKDIR /workspace
 RUN mkdir hydra && mkdir wandb
 RUN git clone https://github.com/lsdras/cdvae.git && cd cdvae && git checkout origin/lsdras/dockerized
 WORKDIR /workspace/cdvae
 
-RUN conda env install --file env_sub_docker.yml && \
-    conda activate cdvae && \
-    conda install -y ipywidgets jupyterlab matplotlib pylint && \
-    conda install -y -c conda-forge matminer=0.7.3 nglview pymatgen=2020.12.31 torchmetrics=0.7.3 && \
+RUN conda env create --name cdvae --file env_sub_docker.yml && \
+    conda install -n cdvae -y ipywidgets jupyterlab matplotlib pylint && \
+    conda install -n cdvae -y -c conda-forge matminer=0.7.3 nglview pymatgen=2020.12.31 torchmetrics=0.7.3 && \
     pip install setuptools==59.5.0 && pip install -e .
 
 #SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
