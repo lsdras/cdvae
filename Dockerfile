@@ -36,7 +36,9 @@ RUN git clone https://github.com/lsdras/cdvae.git && cd cdvae && git checkout or
 WORKDIR /workspace/cdvae
 
 RUN conda env create --name cdvae --file env_sub_docker.yml
-RUN /bin/bash -c "source activate cdvae && conda install -y ipywidgets jupyterlab matplotlib pylint && conda install -y -c conda-forge matminer=0.7.3 nglview pymatgen=2020.12.31 torchmetrics=0.7.3 && pip install setuptools==59.5.0 && pip install -e ."
+RUN /bin/bash -c "source activate cdvae && conda install -y ipywidgets jupyterlab matplotlib pylint"
+RUN /bin/bash -c "source activate cdvae && conda install -y -c conda-forge matminer=0.7.3 nglview pymatgen=2020.12.31 torchmetrics=0.7.3"
+RUN /bin/bash -c "source activate cdvae && pip install setuptools==59.5.0 && pip install -e ."
 
 #SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 #RUN echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
